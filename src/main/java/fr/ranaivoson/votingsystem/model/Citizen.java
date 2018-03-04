@@ -1,20 +1,20 @@
 package fr.ranaivoson.votingsystem.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "citizens")
 public class Citizen {
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column(name = "citizen_name")
     private String citizenName;
+
+    @ManyToMany(mappedBy = "citizens")
+    private List<Citizen> citizens = new ArrayList<>();
 
     public Citizen() {
     }
@@ -23,6 +23,13 @@ public class Citizen {
         super();
         this.id = id;
         this.citizenName = citizenName;
+    }
+
+    public Citizen(Long id, String citizenName, List<Citizen> citizens) {
+        super();
+        this.id = id;
+        this.citizenName = citizenName;
+        this.citizens = citizens;
     }
 
     public Long getId() {
@@ -39,6 +46,14 @@ public class Citizen {
 
     public void setCitizenName(String citizenName) {
         this.citizenName = citizenName;
+    }
+
+    public List<Citizen> getCitizens() {
+        return citizens;
+    }
+
+    public void setCitizens(List<Citizen> citizens) {
+        this.citizens = citizens;
     }
 
 }
